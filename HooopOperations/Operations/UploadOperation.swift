@@ -33,7 +33,7 @@ open class UploadOperation: HooopOperation {
             return upload_endpoint
         }
     }
-    private let manager: SessionManager
+    public let manager: SessionManager
     
     public init(withGif gif:GifBase, andManager manager: SessionManager) {
         self.manager = manager
