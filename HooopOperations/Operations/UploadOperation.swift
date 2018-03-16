@@ -12,13 +12,31 @@ import Alamofire
 import HooopModels
 
 open class UploadOperation: HooopOperation {
-    
+    private static var endPointConfig:NSDictionary {
+        get {
+            let path = Bundle.main.path(forResource: "AppConfig", ofType: "plist")
+            let config = NSDictionary(contentsOfFile: path!)!
+            let endPointConfig = config.value(forKey: "end_point")! as! NSDictionary
+            return endPointConfig
+        }
+    }
+    public var upload_endpoint: String {
+        get {
+            var secure_ssl : String = ""
+            if (UploadOperation.endPointConfig.value(forKey: "secure_ssl") as! Bool) {
+                secure_ssl.append("s")
+            }
+            let subdomain = UploadOperation.endPointConfig.value(forKey: "subdomain") as! String
+            let domain = UploadOperation.endPointConfig.value(forKey: "domain") as! String
+            let endpoint = (UploadOperation.endPointConfig.value(forKey: "upload") as! String).replacingOccurrences(of: "event_id", with: self.gif.event.id.stringValue)
+            let upload_endpoint = "http\(secure_ssl)://\(subdomain).\(domain)/\(endpoint)"
+            return upload_endpoint
+        }
+    }
     private let manager: SessionManager
-    private let config: NSDictionary
     
-    init(withGif gif:GifBase, andManager manager: SessionManager) {
+    public init(withGif gif:GifBase, andManager manager: SessionManager) {
         self.manager = manager
-        self.config = NSDictionary()
         super.init()
         self.gif = gif
     }
@@ -30,7 +48,6 @@ open class UploadOperation: HooopOperation {
         
         executing(true)
         
-        let upload_endpoint = "https://admin.hooop.fr/api/events/\(gif.event.id.intValue)/create_new_gif2"
         let encoded_gif = try? gif.asDictionary()
         if let _ = encoded_gif {
             manager.request(upload_endpoint, method: HTTPMethod.post, parameters: ["gif": encoded_gif!], encoding: JSONEncoding.default, headers: nil).responseJSON(completionHandler: gif.callback)
