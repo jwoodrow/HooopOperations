@@ -7,7 +7,7 @@ s.name = "HooopOperations"
 s.summary = "Hooop Operations used to have a coherence with the back end"
 s.requires_arc = true
 
-s.version = "0.1.0"
+s.version = "0.1.1"
 
 s.license = { :type => 'All rights reserved.', :text => <<-LICENSE
 Copyright (C) HOOOP, Inc - All Rights Reserved
@@ -25,7 +25,7 @@ s.source = { :git => "https://github.com/jwoodrow/HooopOperations.git", :tag => 
 
 s.framework = "UIKit"
 s.dependency "Alamofire", "4.8.2"
-s.dependency "HooopModels"
+s.dependency "HooopModels", "0.1.3"
 
 s.source_files = "HooopOperations/**/*.{swift}"
 
