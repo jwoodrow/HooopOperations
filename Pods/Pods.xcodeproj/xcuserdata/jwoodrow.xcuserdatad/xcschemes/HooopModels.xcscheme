@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '239F4CC1168F139399660F490AA5E9CE'
-               BlueprintName = 'HooopModels'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'HooopModels.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "37B571F89DE40E8DA6F7B2AEF62DE905"
+               BuildableName = "HooopModels.framework"
+               BlueprintName = "HooopModels"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

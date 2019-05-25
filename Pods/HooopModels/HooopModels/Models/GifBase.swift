@@ -34,7 +34,7 @@ open class GifBase: NSManagedObject, Encodable {
             } else {
                 var ret:[NSData]? = []
                 for fI:UIImage in newValue! as [UIImage] {
-                    ret!.append((UIImagePNGRepresentation(fI) as NSData?)!)
+                    ret!.append((fI.pngData() as NSData?)!)
                 }
                 self.frameImagesData = ret
             }
@@ -56,7 +56,7 @@ open class GifBase: NSManagedObject, Encodable {
         var framesData: [Data?] = []
         var frameUrls: [String] = []
         for image in frameImages! {
-            framesData.append(UIImageJPEGRepresentation(image, 1))
+            framesData.append(image.jpegData(compressionQuality: 1.0))
         }
         for (index, frameData) in framesData.enumerated() {
             encodingGroup.enter()

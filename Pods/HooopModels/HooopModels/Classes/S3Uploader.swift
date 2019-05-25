@@ -79,19 +79,21 @@ open class NetworkManager: Alamofire.SessionManager {
             uploadRequest?.acl = .publicRead
             uploadRequest?.bucket = NetworkManager.S3Bucket + "/" + destination
             
-            let transferManager = AWSS3TransferManager.default()
-            transferManager.upload(uploadRequest!).continueWith(block: { (task) -> Any? in
-                guard task.error == nil else {
-                    debugPrint("Failed to upload file: " + task.error.debugDescription)
+            let uploadExpression = AWSS3TransferUtilityUploadExpression()
+            uploadExpression.setValue("public-read", forRequestHeader: "x-amz-acl")
+            let transferUtility = AWSS3TransferUtility.default()
+            transferUtility.uploadFile(URL as URL, key: key, contentType: contentType, expression: uploadExpression, completionHandler: { (task, error) in
+                guard error == nil else {
+                    debugPrint("Failed to upload file: " + error.debugDescription)
                     DispatchQueue.main.async {
-                        completion(nil, task.error)
+                        completion(nil, error)
                     }
-                    return nil
+                    return
                 }
                 
                 let imageURLString = "https://\(NetworkManager.S3Region).amazonaws.com/\(NetworkManager.S3Bucket)/\(destination)/\(key)"
                 DispatchQueue.main.async { completion(imageURLString, nil) }
-                return nil
+                return
             })
         }
     }
@@ -111,7 +113,7 @@ open class NetworkManager: Alamofire.SessionManager {
     
     open class func uploadImage(image: UIImage, key: String, completion: @escaping (String?, Error?) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            if let data = UIImageJPEGRepresentation(image, 1) {
+            if let data = image.jpegData(compressionQuality: 1.0) {
                 let contentType = "image/jpeg"  // MIME type
                 uploadData(data: data, contentType: contentType, destination: "images", key: key, completion: completion)
             } else {

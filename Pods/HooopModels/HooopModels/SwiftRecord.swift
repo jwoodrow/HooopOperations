@@ -14,15 +14,15 @@ import CoreData
 
 open class SwiftRecord {
     
-    open static var generateRelationships = false
+    public static var generateRelationships = false
     
-    open static func setUpEntities(_ entities: [String:NSManagedObject.Type]) {
+    public static func setUpEntities(_ entities: [String:NSManagedObject.Type]) {
         nameToEntities = entities
     }
     
     fileprivate static var nameToEntities: [String:NSManagedObject.Type] = [String:NSManagedObject.Type]()
     
-    open let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
+    public let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
     
     open var databaseName: String {
         get {
@@ -168,7 +168,7 @@ open class SwiftRecord {
     }
     fileprivate init() {
         #if os(iOS)
-            NotificationCenter.default.addObserver(self, selector: #selector(SwiftRecord.applicationWillTerminate), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SwiftRecord.applicationWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
         #endif
     }
     @objc open func applicationWillTerminate() {
@@ -178,11 +178,11 @@ open class SwiftRecord {
         #endif
     }
     // singleton
-    open static let sharedRecord = SwiftRecord()
+    public static let sharedRecord = SwiftRecord()
 }
 
 public extension NSManagedObjectContext {
-    public static var defaultContext: NSManagedObjectContext {
+    static var defaultContext: NSManagedObjectContext {
         return SwiftRecord.sharedRecord.managedObjectContext
     }
 }
