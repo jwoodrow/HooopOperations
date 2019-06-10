@@ -8,7 +8,7 @@ target 'HooopOperations' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'HooopModels', '0.1.3'
+  pod 'HooopModels', '0.1.4'
   pod 'Alamofire', '4.8.2'
 
   # Pods for HooopOperations
